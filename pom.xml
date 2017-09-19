@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.ups.ttg.hubx</groupId>
+	<artifactId>tasker</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>tasker</name>
+	<description>Demo project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.7.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<camel.version>2.19.3</camel.version>
+	</properties>
+
+	<dependencies>
+
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-actuator</artifactId>
+		</dependency>
+
+		<!-- Camel -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring-boot-starter</artifactId>
+			<version>2.19.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-stream-starter</artifactId>
+			<version>2.19.3</version>
+		</dependency>
+
+		<!-- test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test-spring</artifactId>
+			<version>2.19.3</version>
+      <scope>test</scope>
+    </dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<!-- UPS Spring releases Nexus repository -->
+		<repository>
+			<id>spring-milestone</id>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-releases/</url>
+		</repository>
+
+		<repository>
+			<id>spring-libraries</id>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-libraries/</url>
+		</repository>
+
+		<!-- UPS Maven central Nexus repository -->
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-public/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+
+	<pluginRepositories>
+		<!-- UPS Spring releases Nexus repository -->
+		<pluginRepository>
+			<id>spring-milestone</id>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-releases/</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>spring-libraries</id>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-libraries/</url>
+		</pluginRepository>
+
+		<!-- UPS Maven central Nexus repository -->
+		<pluginRepository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-public/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+
+	</pluginRepositories>
+
+</project>
