@@ -82,7 +82,7 @@
               }
             },
             "postCommit": {
-               "script": "scl enable rh-maven33 \"cd /tmp/src \u0026\u0026 mvn -Dmaven.repo.local=/tmp/artifacts/m2 --settings=/usr/local/s2i/jboss-settings.xml test sonar:sonar -Dsonar.branch=${GIT_REPO_BRANCH} -Dsonar.host.url=${SONARQUBE_URL} -DskipTests=false\""
+               "script": "scl enable rh-maven33 \"cd /tmp/src \u0026\u0026 mvn -Dmaven.repo.local=/tmp/artifacts/m2 --settings=/usr/local/s2i/jboss-settings.xml test\""
             }
         }
       }
