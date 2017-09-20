@@ -150,8 +150,8 @@
                                         }
                                     },
                                     {
-                                        "name": "SPRING_PROFILES_ACTIVE",
-                                        "value": "openshift"
+                                        "name": "SPRING_PROFILES_ACTIVE",
+                                        "value": "openshift"
                                     }
                                 ]
                             }
