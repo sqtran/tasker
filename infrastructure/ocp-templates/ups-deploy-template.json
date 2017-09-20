@@ -148,7 +148,11 @@
                                                 "fieldPath": "metadata.namespace"
                                             }
                                         }
-                                    }                                    
+                                    },
+                                    {
+                                        "name": "SPRING_PROFILES_ACTIVE",
+                                        "value": "openshift"
+                                    }
                                 ]
                             }
                         ]
