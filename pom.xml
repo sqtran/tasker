@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>tasker</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Timer app to ping hubx APIs</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -75,58 +75,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<!-- UPS Spring releases Nexus repository -->
-		<repository>
-			<id>spring-milestone</id>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-releases/</url>
-		</repository>
-
-		<repository>
-			<id>spring-libraries</id>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-libraries/</url>
-		</repository>
-
-		<!-- UPS Maven central Nexus repository -->
-		<repository>
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-public/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-	</repositories>
-
-	<pluginRepositories>
-		<!-- UPS Spring releases Nexus repository -->
-		<pluginRepository>
-			<id>spring-milestone</id>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-releases/</url>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>spring-libraries</id>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-spring-libraries/</url>
-		</pluginRepository>
-
-		<!-- UPS Maven central Nexus repository -->
-		<pluginRepository>
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>https://nexusrmps.njrar.us.ups.com:8443/repository/maven-public/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-		</pluginRepository>
-
-	</pluginRepositories>
 
 </project>
