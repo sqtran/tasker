@@ -3,7 +3,7 @@ microservice = 'tasker'
 print "microservice: ${microservice}"
 
 // Collect the git info (Since the git plugin has trouble providing the URL and commit hash)
-gitURL = "https://tfs.ups.com/tfs/UpsProd/P07AGit_Transportation_Systems/_git/HubX.API"
+gitURL = "https://tfs.ups.com/tfs/UpsProd/P07AGit_Transportation_Systems/_git/tasker"
 gitContextDir = "/"
 gitBranch = env.BRANCH_NAME
 //TODO get a generic TFS credentials for MOD that does not expire to do git checkout
