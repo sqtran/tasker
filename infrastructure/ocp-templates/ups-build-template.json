@@ -56,12 +56,17 @@
                 "from": {
                   "kind": "ImageStreamTag",
                   "namespace": "openshift",
-                  "name": "openjdk18-openshift-ups:apm"
+                  "name": "openjdk18-openshift-ups:latest"
                 },
-                  "env": [{
+                  "env": [
+                    {
                       "name": "JAVA_MAX_MEM_RATIO",
                       "value": "80"
-                  }
+                    },
+                    {
+                      "name": "SPRING_PROFILES_ACTIVE",
+                      "value": "openshift"
+                    }
                 ]
               }
             },
