@@ -47,7 +47,7 @@
               },
               "contextDir": "${GIT_CONTEXT_DIR}",
               "sourceSecret": {
-                "name": "gitsecret"
+                "name": "hubx-git-repo-user"
               }
             },
             "strategy": {
