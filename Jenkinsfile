@@ -36,10 +36,10 @@ versionNumber = '1.0'
 node("jenkins-agent-base"){
 
   // Checkout the external Jenkinsfile
-  gitCheckout(workspace, jenkinsfileURL, jenkinsfileBranch, gitCredentialsId)
+  gitCheckout(workspace, jenkinsfileURL, jenkinsfileBranch, 'HEAD', microservice, gitCredentialsId)
   print "Checked out infra files"
 
-  gitCheckout(workspace, gitURL, gitBranch, gitCredentialsId)
+  gitCheckout(workspace, gitURL, gitBranch, 'HEAD', microservice, gitCredentialsId)
     print "Checked out ${microservice} files"
 
   //pom = readMavenPom file: 'microservice/pom.xml'
@@ -56,22 +56,29 @@ pipeline.main()
  * Clones and checks out the given Git repository branch and commit
  * @param  String workspace     Path of the working directory to use
  * @param  String url           URL of the Git repository
+ * @param  String branch        Branch to checkout
+ * @param  String commit        Short commit hash to set HEAD to
+ * @param  String targetDir     Target directory in the Git repository to clone
  * @param  String credentialsId Id of the Git credentials to use
  *  (From the credentials plugin in Cloudbees)
  */
-def gitCheckout(String workspace, String url, String branch, String credentialsId) {
+def gitCheckout(String workspace, String url, String branch, String commit,
+                String targetDir, String credentialsId) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${credentialsId}",
                       passwordVariable: 'pass', usernameVariable: 'user']]) {
-
         // Checkout the code and navigate to the target directory
         int slashIdx = url.indexOf("://")
         String urlWithCreds = url.substring(0, slashIdx + 3) +
                 "\"${user}:${pass}\"@" + url.substring(slashIdx + 3);
 
         sh """
-          git clone -b ${branch} ${urlWithCreds}
+          # Ensure the targetDir is deleted before we clone
+          rm -rf ${workspace}/${targetDir}
+          git clone -b ${branch} ${urlWithCreds} ${targetDir}
+          cd ${workspace}/${targetDir}
+          git reset --hard ${commit}
           cd ${workspace}
-          echo `pwd && ls`
+          echo `pwd && ls -l`
         """
     }
 }
