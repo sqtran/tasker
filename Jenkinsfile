@@ -36,7 +36,7 @@ versionNumber = '1.0'
 node("jenkins-agent-base"){
 
   // Checkout the external Jenkinsfile
-  gitCheckout(workspace, jenkinsfileURL, jenkinsfileBranch, 'HEAD', microservice, gitCredentialsId)
+  gitCheckout(workspace, jenkinsfileURL, jenkinsfileBranch, 'HEAD', 'hubX-infrastructure', gitCredentialsId)
   print "Checked out infra files"
 
   gitCheckout(workspace, gitURL, gitBranch, 'HEAD', microservice, gitCredentialsId)
