@@ -9,16 +9,14 @@ endpoints:
     enabled: true
 
 timer:
-  period: 2000
+  period: 10s
 
 ---
 spring:
   profiles: openshift
-greeting: Hello World
 configuratorUrl: http://hubx-api-configurator:8080/api/values/
 
 ---
 spring:
   profiles: development
-greeting: Hello Peter
 configuratorUrl: https://hubx-api-configurator-hubx-build.paas-dev-njrar-01.ams1907.com/api/values

@@ -1,6 +1,7 @@
 package com.ups.ttg.hubx.tasker;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +18,15 @@ public class TaskerRouter extends RouteBuilder {
         from("direct:one")
                 .setHeader(Exchange.HTTP_METHOD, constant("GET"))
                 .to("{{configuratorUrl}}")
-                .to("stream:out");
+                .log(LoggingLevel.INFO, "Response from {{configuratorUrl}}: ${body}");
+              //.to("log:com.ups.ttg.hubx.tasker?level=INFO&message=Response from {{configuratorUrl}}: ${body}");
 
-        from("direct:two")
-                .setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .to("http://www.yahoo.com");
+//            .log(LoggingLevel.DEBUG, "Processing file ${file:name}").to("bean:foo");
+
+
+        // from("direct:two")
+        //         .setHeader(Exchange.HTTP_METHOD, constant("GET"))
+        //         .to("http://www.yahoo.com");
 
     }
 
