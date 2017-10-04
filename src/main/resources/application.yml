@@ -10,13 +10,38 @@ endpoints:
 
 timer:
   period: 10s
+  quartz: 0/10+0+0+?+*+*+*
+  seconds: 0,15,30,45+*+*+*+*+?+*
+
 
 ---
 spring:
   profiles: openshift
-configuratorUrl: http://hubx-api-configurator:8080/api/values/
+crddata:
+  period: 0+0+9+?+*+SUN+*
+  earmo: http://hubx-api-communication:8080/api/SeasParser/GetCrdData
+  lchky: http://hubx-api-communication:8080/api/SeasParser/GetCrdData
+tds:
+  period: 0+0,15,30,45+*+?+*+*+*
+  earmo: http://hubx-api-communication:8080/api/TDSParser/UpdateBayInfo/6309/true/true/true
+  lchky: http://hubx-api-communication:8080/api/TDSParser/UpdateBayInfo/4029/true/true/true
+seas:
+  period: 0+0+9+?+*+*+*
+  earmo: http://hubx-api-communication:8080/api/SEASParser/GetPerformanceData/6309
+  lchky: http://hubx-api-communication:8080/api/SEASParser/GetPerformanceData/4029
 
 ---
 spring:
   profiles: development
-configuratorUrl: https://hubx-api-configurator-hubx-build.paas-dev-njrar-01.ams1907.com/api/values
+crddata:
+  period: 0,15,30,45+*+*+*+*+?+*
+  earmo: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/SeasParser/GetCrdData
+  lchky: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/SeasParser/GetCrdData
+tds:
+  period: 0,10,20,30,40,50+*+*+*+*+?+*
+  earmo: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/TDSParser/UpdateBayInfo/6309/true/true/true
+  lchky: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/TDSParser/UpdateBayInfo/4029/true/true/true
+seas:
+  period: 0,12,24,36,48+*+*+*+*+?+*
+  earmo: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/SEASParser/GetPerformanceData/6309
+  lchky: https://hubx-api-communication-hubx-build.paas-dev-njrar-01.ams1907.com/api/SEASParser/GetPerformanceData/4029
