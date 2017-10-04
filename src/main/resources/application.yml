@@ -8,12 +8,6 @@ endpoints:
   health:
     enabled: true
 
-timer:
-  period: 10s
-  quartz: 0/10+0+0+?+*+*+*
-  seconds: 0,15,30,45+*+*+*+*+?+*
-
-
 ---
 spring:
   profiles: openshift

@@ -18,17 +18,17 @@ jenkinsfileBranch = "dev"
 buildCPURequest = '200m'
 buildMemRequest = '1600Mi'
 buildCPULimit = '2000m'
-buildMemLimit = '1800Mi'
+buildMemLimit = '1600Mi'
 buildWaitTime = '720'
 
 // Deployment requests and limits and base livenessDelay, readinessDelay, and numReplicas
-deployCPURequest = '200m'
-deployMemRequest = '1000Mi'
-deployCPULimit = '2000m'
+deployCPURequest = '100m'
+deployMemRequest = '1500Mi'
+deployCPULimit = '1000m'
 deployMemLimit = '1500Mi'
-numReplicas = 1
+numReplicas = 2
 livenessDelay = 480
-readinessDelay = 5
+readinessDelay = 20
 deploymentWaitTime = numReplicas * livenessDelay * 2000
 
 versionNumber = '1.0'
