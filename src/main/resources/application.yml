@@ -8,6 +8,8 @@ endpoints:
   health:
     enabled: true
 
+timeout: 100000
+
 ---
 spring:
   profiles: openshift

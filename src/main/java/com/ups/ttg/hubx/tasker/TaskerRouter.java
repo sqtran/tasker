@@ -21,40 +21,48 @@ public class TaskerRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("quartz://crdTimer?cron={{crddata.period}}")
+
+        //String EXCEPTION_CAUGHT = "CamelExceptionCaught";
+        onException(Exception.class).handled(true)
+                .log(LoggingLevel.ERROR,"${exception.message}");
+
+        //TODO see what we can do with .toD and looping thru list
+        //https://camel.apache.org/message-endpoint.html#MessageEndpoint-DynamicTo
+
+        from("quartz://crdDataTimer?cron={{crddata.period}}").routeId("crdDataTimer")
                 .to("direct:setHeaders")
                 .multicast().to("direct:CRDData.EARMO", "direct:CRDData.LCHKY");
 
-        from("quartz://tdsTimer?cron={{tds.period}}")
+        from("quartz://tdsTimer?cron={{tds.period}}").routeId("tdsTimer")
                 .to("direct:setHeaders")
                 .multicast().to("direct:TDS.EARMO", "direct:TDS.LCHKY");
 
-        from("quartz://seasTimer?cron={{seas.period}}")
+        from("quartz://seasTimer?cron={{seas.period}}").routeId("seasTimer")
                 .to("direct:setHeaders")
                 .multicast().to("direct:SEAS.EARMO", "direct:SEAS.LCHKY");
 
         from("direct:CRDData.EARMO")
-                .to("{{crddata.earmo}}")
+                .toD("{{crddata.earmo}}")
                 .log(LoggingLevel.INFO,"Response from CRDData.EARMO: ${body}");
 
         from("direct:CRDData.LCHKY")
-                .to("{{crddata.lchky}}")
+                .toD("{{crddata.lchky}}")
                 .log(LoggingLevel.INFO,"Response from CRDData.LCHKY: ${body}");
 
         from("direct:TDS.EARMO")
-                .to("{{tds.earmo}}")
+                .toD("{{tds.earmo}}}")
                 .log(LoggingLevel.INFO,"Response from TDS.EARMO: ${body}");
 
         from("direct:TDS.LCHKY")
-                .to("{{tds.lchky}}")
+                .toD("{{tds.lchky}}")
                 .log(LoggingLevel.INFO,"Response from TDS.LCHKY: ${body}");
 
         from("direct:SEAS.EARMO")
-                .to("{{seas.earmo}}")
+                .toD("{{seas.earmo}}")
                 .log(LoggingLevel.INFO,"Response from SEAS.EARMO: ${body}");
 
         from("direct:SEAS.LCHKY")
-                .to("{{seas.lchky}}")
+                .toD("{{seas.lchky}}")
                 .log(LoggingLevel.INFO,"Response from SEAS.LCHKY: ${body}");
 
         from("direct:setHeaders").routeId("setHeaders")
