@@ -10,6 +10,11 @@ endpoints:
 
 timeout: 100000
 
+segment:
+  list:
+    - SEG1
+    - SEG2
+
 ---
 spring:
   profiles: openshift

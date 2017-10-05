@@ -2,16 +2,21 @@ package com.ups.ttg.hubx.tasker;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableConfigurationProperties
 public class TaskerRouter extends RouteBuilder {
+
+    @Autowired
+    private SegmentListConfig segmentListConfig;
 
     @Override
     public void configure() throws Exception {
-
 
         //String EXCEPTION_CAUGHT = "CamelExceptionCaught";
         onException(Exception.class).handled(true)
@@ -21,6 +26,12 @@ public class TaskerRouter extends RouteBuilder {
         //https://camel.apache.org/message-endpoint.html#MessageEndpoint-DynamicTo
 
         from("quartz://crdDataTimer?cron={{crddata.period}}").routeId("crdDataTimer")
+//                .process(new Processor() {
+//                    @Override
+//                    public void process(Exchange exchange) throws Exception {
+//                        System.out.println("list " + segmentListConfig.getList());
+//                    }
+//                })
                 .to("direct:setHeaders")
                 .multicast().to("direct:CRDData.EARMO", "direct:CRDData.LCHKY");
 
