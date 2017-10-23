@@ -1,5 +1,7 @@
 package com.ups.ttg.hubx.tasker;
 
+import java.util.Map;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
@@ -8,72 +10,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Main route builder for Tasker.  This dynamically builds a camel route per 
+ *  configuration via the application.yml file.  Unless new functionality is 
+ *  needed, this class should not be modified.  All configurations are done
+ *  in the application.yml file.
+ * 
+ * @author stran
+ */
 @Component
 @EnableConfigurationProperties
 public class TaskerRouter extends RouteBuilder {
 
     @Autowired
-    private SegmentListConfig segmentListConfig;
+    private TaskerConfiguration conf;
+    
+    private static final String FROM_CONFIG = "quartz://%s?cron=%s";
+    private static final String MESSAGE =  "Response from %s (%s): ${body}";
 
     @Override
     public void configure() throws Exception {
 
         //String EXCEPTION_CAUGHT = "CamelExceptionCaught";
         onException(Exception.class).handled(true)
-                .log(LoggingLevel.ERROR,"${exception.message}");
+        	.log(LoggingLevel.ERROR,"${exception.message}");
+       
+        System.out.println("Building routes: ");
+        
+		String routeURL;
+        String routeName;
+        String routeCron;
+        
+        for(TaskerConfiguration.Data data : conf.getData()) {
+        	System.out.println("Processing " + (routeName = data.getName()));
+        	System.out.println("Cron = " + (routeCron = data.getCron()));
+        	
+        	Map<String, String> endpoints = data.getEndpoints();
 
-        //TODO see what we can do with .toD and looping thru list
-        //https://camel.apache.org/message-endpoint.html#MessageEndpoint-DynamicTo
-
-        from("quartz://crdDataTimer?cron={{crddata.period}}").routeId("crdDataTimer")
-//                .process(new Processor() {
-//                    @Override
-//                    public void process(Exchange exchange) throws Exception {
-//                        System.out.println("list " + segmentListConfig.getList());
-//                    }
-//                })
-                .to("direct:setHeaders")
-                .multicast().to("direct:CRDData.EARMO", "direct:CRDData.LCHKY");
-
-        from("quartz://tdsTimer?cron={{tds.period}}").routeId("tdsTimer")
-                .to("direct:setHeaders")
-                .multicast().to("direct:TDS.EARMO", "direct:TDS.LCHKY");
-
-        from("quartz://seasTimer?cron={{seas.period}}").routeId("seasTimer")
-                .to("direct:setHeaders")
-                .multicast().to("direct:SEAS.EARMO", "direct:SEAS.LCHKY");
-
-        from("direct:CRDData.EARMO")
-                .toD("{{crddata.earmo}}")
-                .log(LoggingLevel.INFO,"Response from CRDData.EARMO: ${body}");
-
-        from("direct:CRDData.LCHKY")
-                .toD("{{crddata.lchky}}")
-                .log(LoggingLevel.INFO,"Response from CRDData.LCHKY: ${body}");
-
-        from("direct:TDS.EARMO")
-                .toD("{{tds.earmo}}}")
-                .log(LoggingLevel.INFO,"Response from TDS.EARMO: ${body}");
-
-        from("direct:TDS.LCHKY")
-                .toD("{{tds.lchky}}")
-                .log(LoggingLevel.INFO,"Response from TDS.LCHKY: ${body}");
-
-        from("direct:SEAS.EARMO")
-                .toD("{{seas.earmo}}")
-                .log(LoggingLevel.INFO,"Response from SEAS.EARMO: ${body}");
-
-        from("direct:SEAS.LCHKY")
-                .toD("{{seas.lchky}}")
-                .log(LoggingLevel.INFO,"Response from SEAS.LCHKY: ${body}");
-
-        from("direct:setHeaders").routeId("setHeaders")
-                .setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .setHeader("Content-Type", constant("application/json"))
-                .setHeader("Authorization", constant("Basic UPSDummyUser:UPSPassword"))
-                .setHeader("UserID", constant("Openshift"))
-                .setHeader("MobileID", constant("Scheduler"))
-                .setHeader("Role", constant("admin"));
-
-    }
+        	for(String key : endpoints.keySet()) {
+        		System.out.println("route = " + (routeURL = endpoints.get(key)));
+        		
+        		// routeName + route's key makes a unique identifier
+        		String routeKey = routeName + "_" + key;
+        		
+            	from(String.format(FROM_CONFIG, routeKey, routeCron))
+            		.routeId(routeKey)
+            		.process(new Processor() {
+            			// Process the default headers as well as anything overridden
+						@Override
+						public void process(Exchange exchange) throws Exception {
+ 							exchange.getIn().setHeader(Exchange.HTTP_METHOD, "GET");
+ 							exchange.getIn().setHeader(Exchange.CONTENT_TYPE, "application/json");
+ 							exchange.getIn().setHeader("Authorization", "Basic UPSDummyUser:UPSPassword");
+ 							exchange.getIn().setHeader("UserID", "Openshift");
+ 							exchange.getIn().setHeader("MobileID", "Scheduler");
+ 							exchange.getIn().setHeader("Role", "admin");
+ 				            
+ 				            Map<String, String> headers = data.getHeaders();
+ 				            for(String key : headers.keySet()) { 
+ 				            	exchange.getIn().setHeader(key, headers.get(key));
+ 				            }
+						}
+            		})
+            		.to(routeURL)
+            		.log(LoggingLevel.INFO, String.format(MESSAGE, routeKey, routeURL));
+        	}
+        }
+    }    
 }

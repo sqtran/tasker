@@ -86,33 +86,4 @@
 		</plugins>
 	</build>
 
-	<repositories>
-			 <repository>
-				 <id>ups-proxy</id>
-				 <url>https://nexusrm.ups.com:8443/repository/ups-proxy/</url>
-			 </repository>
-
-			 <repository>
-				 <id>ups-snapshots</id>
-				 <url>https://nexusrm.ups.com:8443/repository/ups-snapshots/</url>
-			 </repository>
-
-			 <repository>
-				 <id>ups-releases</id>
-				 <url>https://nexusrm.ups.com:8443/repository/ups-releases/</url>
-			 </repository>
-
-			 <repository>
-				 <id>ups-third-party</id>
-				 <url>https://nexusrm.ups.com:8443/repository/ups-third-party/</url>
-			 </repository>
-		 </repositories>
-
-		 <pluginRepositories>
-			 <pluginRepository>
-				 <id>ups-proxy</id>
-				 <url>https://nexusrm.ups.com:8443/repository/ups-proxy/</url>
-			 </pluginRepository>
-		 </pluginRepositories>
-
 </project>
