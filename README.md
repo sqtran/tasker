@@ -7,7 +7,7 @@ Set the `SPRING_PROFILE_ACTIVE` environment variable to one of the following.
 
 | Setting | Description |
 | --- | --- |
-| offline | Runs tasker using public endpoints that are accessible when not in the UPS network, this is the Default |
+| default | Runs tasker using public endpoints that are accessible when not in the UPS network, this is the Default |
 | development | Runs tasker using UPS endpoints |
 | openshift | Runs tasker using UPS endpoints in Openshift |
 

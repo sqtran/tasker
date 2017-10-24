@@ -11,7 +11,7 @@ endpoints:
 timeout: 100000
 
 spring:
-  profiles: offline
+  profiles: default
   
 configuration:
   data:
